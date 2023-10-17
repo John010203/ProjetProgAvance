@@ -17,7 +17,7 @@ public class Ville {
 		this.zoneDeRecharge = b;
 	}
 	public void setZoneDeRechargeAdjacent(boolean b) {
-		this.zoneDeRecharge = b;
+		this.zoneDeRechargeAdjacent = b;
 	}
 	
 	public boolean getZoneDeRecharge() {
