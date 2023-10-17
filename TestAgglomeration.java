@@ -14,7 +14,7 @@ public class TestAgglomeration {
 		
 		Scanner s = new Scanner(System.in);
 		int i, reponse;
-		String borne;
+		String route1, route2, borne;
 		do {
 			System.out.println("Entrez le nombre de villes (entre 1 et 26 inclus) : ");
 			i = s.nextInt();
@@ -26,10 +26,17 @@ public class TestAgglomeration {
 		while(rep) {
 			System.out.println("1. Ajouter une route.");
 			System.out.println("2. fin.");
+			
 			reponse = s.nextInt();
+			s.nextLine();
+			
 			switch(reponse) {
 			case 1:
-				Ag.setRoute(new Route(v,v1));
+				System.out.println("Dans quelle ville de départ souhaitez-vous ajouter une route ");
+				route1 = s.nextLine();
+				System.out.println("Dans quelle ville de fin souhaitez-vous ajouter une route ");
+				route2 = s.nextLine();
+				Ag.ajoutRoute(route1, route2);
 				break;
 			case 2:
 				rep=false;
@@ -42,20 +49,26 @@ public class TestAgglomeration {
 			System.out.println("1. Ajouter une borne de recharge.");
 			System.out.println("2. Retirer une borne de recharge.");
 			System.out.println("3. fin.");
+			
 			reponse = s.nextInt();
+			s.nextLine();
+			
 			switch(reponse) {
 			case 1:
 				System.out.println("Dans quelle ville souhaitez-vous ajouter une borne de recharge? ");
 				borne = s.nextLine();
-				v.setZoneDeRecharge(true);
+				Ag.recharge(borne);
 				break;
 			case 2:
-				v.setZoneDeRecharge(false);
+				System.out.println("Dans quelle ville souhaitez-vous retirer une borne de recharge? ");
+				borne = s.nextLine();
+				Ag.decharge(borne);
 				break;
 			case 3:
 				rep=false;
 				break;
 			}
 		}
+		s.close();
 	}
 }
