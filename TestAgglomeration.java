@@ -49,7 +49,7 @@ public class TestAgglomeration {
 			System.out.println("1. Ajouter une borne de recharge.");
 			System.out.println("2. Retirer une borne de recharge.");
 			System.out.println("3. fin.");
-			
+			System.out.println("Voici les zones de recharges actuelles : " + Ag.getRecharge());
 			reponse = s.nextInt();
 			s.nextLine();
 			
