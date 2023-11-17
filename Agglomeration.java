@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Agglomeration { //Attribut de la classe Agglomeration.
+public class Agglomeration { //Attributs de la classe Agglomeration.
 
 	private List <Ville> villes;
 	private List<Route> routes;
@@ -36,11 +36,11 @@ public class Agglomeration { //Attribut de la classe Agglomeration.
 	// Ajoute une route à l'agglomération,
 	// en vérifiant si elle existe déjà et si elle ne relie pas la même ville à elle-même. 
 
-	public void setRoute(Route routeVille){//methode qui relie la ville avec une autre ville.
-		if(routeVille.getVilleA().equals(routeVille.getVilleB())){//Si la Ville choisis est la même ville.
+	public void setRoute(Route routeVille){//méthode qui relie la ville avec une autre ville.
+		if(routeVille.getVilleA().equals(routeVille.getVilleB())){//Si la Ville choisi est la même ville.
 			System.out.println("Vous ne pouvez pas rajouter une route dans la ville elle-même.");
 		}//if
-		for (Route routes2 : this.routes){//si une route existe déja.
+		for (Route routes2 : this.routes){//si une route existe déjà.
 			if ((routes2.getVilleA().equals(routeVille.getVilleA())) && (routes2.getVilleB().equals(routeVille.getVilleB())) || (routes2.getVilleA().equals(routeVille.getVilleB())) && (routes2.getVilleB().equals(routeVille.getVilleA()))){
 				System.out.println("Cette Route existe déjà. Vous ne pouvez pas la rajouter.");
 				break;
@@ -55,7 +55,7 @@ public class Agglomeration { //Attribut de la classe Agglomeration.
 	// Ajoute une route entre deux villes spécifiées.
 	public void ajoutRoute(String ville1, String ville2){
 		Ville v1 = null,v2 = null;//initiliase v1 et v2 a null.
-		for (Ville ville : this.villes) {//parcours la liste des villes et recherche les objets Ville correspondants aux noms spécifiés.
+		for (Ville ville : this.villes) {//parcourt la liste des villes et recherche les objets Ville correspondants aux noms spécifiés.
 
 			if(ville.getNomVille().equals(ville1)){
 				v1=ville;
@@ -68,7 +68,7 @@ public class Agglomeration { //Attribut de la classe Agglomeration.
 		if(v1!=null && v2!= null) { // Ajoute une nouvelle route si les deux villes existent.
 			this.setRoute(new Route(v1,v2));
 		}//if
-		else{ // Affiche un message si l'une des villes n'existe pas.		
+		else{ // Affiche un message si l'une des 2 villes n'existe pas.		
 			if(v1==null){
 				System.out.println(ville1+ " ne se trouve pas dans l'agglomération.");
 			}//if

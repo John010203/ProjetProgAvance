@@ -4,23 +4,25 @@ import java.util.Scanner;
 
 public class TestAgglomeration {
 	public static void main(String[] args) {
-		Ville v = new Ville("Paris");
-		Ville v1 = new Ville("Marseille");
-		List<Ville> a = new ArrayList<Ville>();
-		a.add(v);
-		a.add(v1);
-		Agglomeration Ag = new Agglomeration(a);
-		System.out.println(Ag.getVilles());
-		
 		Scanner s = new Scanner(System.in);
-		int i, reponse;
+		int nbVilles, i, reponse;
 		String route1, route2, borne;
 		do {
 			System.out.println("Entrez le nombre de villes (entre 1 et 26 inclus) : ");
-			i = s.nextInt();
+			nbVilles = s.nextInt();
 		}
-		while(i>26 && i < 0);
-		System.out.println("L'agglomération à " + i + " villes");
+		while(nbVilles>26 && nbVilles <= 0);
+		
+		List<Ville> villes = new ArrayList<Ville>();
+		
+		for(i=0;i<nbVilles;i++) {
+			char nomVille = (char)('A'+i);
+			villes.add(new Ville(String.valueOf(nomVille)));
+		}
+		
+		Agglomeration Ag = new Agglomeration(villes);
+		System.out.println("L'agglomération à " + nbVilles + " villes");
+		System.out.println(Ag.getVilles());
 		
 		boolean rep=true;
 		while(rep) {

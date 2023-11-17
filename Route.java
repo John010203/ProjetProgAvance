@@ -1,4 +1,4 @@
-public class Route {//Attribut de Route.
+public class Route {//Attributs de Route.
 	private Ville A;
 	private Ville B;
 	

@@ -30,7 +30,7 @@ public class Ville { // Attributs de la classe Ville.
 	}//setVoisins()
 	
 	//boolean getZoneDeRecharge(),
-	// Méthode qui retourne 'état de la zone de recharge de la ville.
+	// Méthode qui retourne l'état de la zone de recharge de la ville.
 	public boolean getZoneDeRecharge() {
 		return this.zoneDeRecharge;
 	}
