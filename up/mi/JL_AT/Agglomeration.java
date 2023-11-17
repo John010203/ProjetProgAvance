@@ -92,7 +92,6 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 				for(Route route : this.routes){// Met à jour les voisins des routes.
 					if(route.getVilleA().equals(villes.get(i))){
 						route.getVilleB().setVoisins(route.getVilleA());
-						System.out.println(route.getVilleB().getNomVille());
 					}//if
 					else if(route.getVilleB().equals(villes.get(i))) {
 						route.getVilleA().setVoisins(route.getVilleB());

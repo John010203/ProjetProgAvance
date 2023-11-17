@@ -8,7 +8,7 @@ public class Ville { // Attributs de la classe Ville.
 	
 	public Ville(String nomVille) { // Constructeur de la classe Ville.
 		this.nomVille=nomVille;
-		this.zoneDeRecharge=false;
+		this.zoneDeRecharge=true;
 		this.voisins=new ArrayList<Ville>();
 	}
 	//String getNomVille(),
@@ -47,22 +47,24 @@ public class Ville { // Attributs de la classe Ville.
 		return sb.toString();
 	}// getVoisins()
 	
-	//boolean getRechargeVoisin(),
+	//boolean checkRechargeVoisin(),
     // Méthode qui retourne un boolean et permet vérifier si au moins un voisin a une zone de recharge activée.
-	public boolean getRechargeVoisin() {
+	private boolean checkRechargeVoisin(List<Ville> voisins, Ville villeExclu) {
 		boolean rep=false;
-		for (int i =0; i< voisins.size();i++) {
-			if (((Ville) this.voisins).getZoneDeRecharge()==true) {
-				rep=true;
-			}//if
-			/*else if(this.voisins.get(i).rechargeVoisin()==false){
-				for (int j=0;j<this.voisins.get(i).voisins.size();j++) {
-					if (((Ville) this.voisins).getZoneDeRecharge()==true) {
-						rep=true;
-					}
-				}
-			}*/
-		}//for
+		if(!voisins.isEmpty()) {//Vérifie que la liste de voisins n'est pas vide
+			for (Ville voisin : voisins) {
+				System.out.println("REP : " + rep +" "+ voisin.nomVille + " " + voisin.getZoneDeRecharge() );
+				if (voisin.getZoneDeRecharge()==true && !voisin.equals(villeExclu)) {//Vérifie que les voisins ont une borne de recharge
+					rep=true;
+				}//if	
+			}//for
+		}//if
 		return rep;
+	}//checkRechargeVoisin()
+	
+	//boolean getRechargeVOisin(),
+	//Méthode qui retourne un boolean et qui appelle la méthode privée qui vérifie si un voisin a une borne de recharge
+	public boolean getRechargeVoisin() {
+		return checkRechargeVoisin(voisins,this);
 	}//getRechargeVoisin()
 }//Classe Ville.
