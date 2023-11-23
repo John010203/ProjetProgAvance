@@ -46,25 +46,39 @@ public class Ville { // Attributs de la classe Ville.
 		}//for
 		return sb.toString();
 	}// getVoisins()
-	
+
 	//boolean checkRechargeVoisin(),
     // Méthode qui retourne un boolean et permet vérifier si au moins un voisin a une zone de recharge activée.
-	private boolean checkRechargeVoisin(List<Ville> voisins, Ville villeExclu) {
-		boolean rep=false;
-		if(!voisins.isEmpty()) {//Vérifie que la liste de voisins n'est pas vide
-			for (Ville voisin : voisins) {
-				System.out.println("REP : " + rep +" "+ voisin.nomVille + " " + voisin.getZoneDeRecharge() );
-				if (voisin.getZoneDeRecharge()==true && !voisin.equals(villeExclu)) {//Vérifie que les voisins ont une borne de recharge
+	// private boolean checkRechargeVoisin(List<Ville> voisins, Ville villeExclu){
+	// 	boolean rep=false;
+	// 	if(!voisins.isEmpty()) {//Vérifie que la liste de voisins n'est pas vide
+	// 		for (Ville voisin : voisins) {
+	// 			System.out.println("REP : " + rep +" "+ voisin.nomVille + " " + voisin.getZoneDeRecharge() );
+	// 			if (voisin.getZoneDeRecharge()==true && !voisin.equals(villeExclu)){//Vérifie que les voisins ont une borne de recharge
+	// 				rep=true;
+	// 			}//if	
+	// 		}//for
+	// 	}//if
+	// 	return rep;
+
+	// }//checkRechargeVoisin()
+
+	private boolean checkRecharge(List<Ville> voisins, Ville villeExclu){
+			boolean rep=false;
+			for(int i=0;i<voisins.size();i++){
+				if(voisins.get(i).getZoneDeRecharge() && voisins.get(i).getNomVille()!= villeExclu.getNomVille()){
 					rep=true;
-				}//if	
-			}//for
-		}//if
-		return rep;
-	}//checkRechargeVoisin()
-	
+				}else{
+					return false;
+				}//else
+			}//if
+	return rep;
+	}//checkRecharge()
+
+
 	//boolean getRechargeVOisin(),
 	//Méthode qui retourne un boolean et qui appelle la méthode privée qui vérifie si un voisin a une borne de recharge
-	public boolean getRechargeVoisin() {
-		return checkRechargeVoisin(voisins,this);
+	public boolean getRechargeVoisin(){
+		return checkRecharge(voisins,this);
 	}//getRechargeVoisin()
 }//Classe Ville.

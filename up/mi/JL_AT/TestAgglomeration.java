@@ -39,6 +39,7 @@ public class TestAgglomeration {
 				System.out.println("Dans quelle ville de fin souhaitez-vous ajouter une route ");
 				route2 = s.nextLine();
 				Ag.ajoutRoute(route1, route2);
+				System.out.println("La route reliant " + route1 + " à " + route2 + " a bien été ajouté.");
 				break;
 			case 2:
 				rep=false;
@@ -51,6 +52,7 @@ public class TestAgglomeration {
 			System.out.println("1. Ajouter une borne de recharge.");
 			System.out.println("2. Retirer une borne de recharge.");
 			System.out.println("3. fin.");
+			System.out.println("");
 			System.out.println("Voici les zones de recharges actuelles : " + Ag.getRecharge());
 			reponse = s.nextInt();
 			s.nextLine();
@@ -60,11 +62,13 @@ public class TestAgglomeration {
 				System.out.println("Dans quelle ville souhaitez-vous ajouter une borne de recharge? ");
 				borne = s.nextLine();
 				Ag.recharge(borne);
+				System.out.println("la borne " + borne + " a bien été rechargé");
 				break;
 			case 2:
 				System.out.println("Dans quelle ville souhaitez-vous retirer une borne de recharge? ");
 				borne = s.nextLine();
 				Ag.decharge(borne);
+				System.out.println("la borne " + borne + " a bien été déchargé");
 				break;
 			case 3:
 				rep=false;

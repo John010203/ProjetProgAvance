@@ -114,13 +114,20 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 		}//if
 	}//recharge()
 	
+	// private boolean aBorneDeRechargeOuVoisin(Agglomeration agglomeration, Ville ville) {
+	// 	if(ville.getZoneDeRecharge()==true && ville.getRechargeVoisin()==true) {//Vérifie si la ville ou l'un de ses voisins a une borne de recharge
+	// 		return true;//retourne vraie si une borne de recharge est présente dans la ville ou un de ses voisins
+	// 	}
+	// 	return false;//sinon faux
+	// }
+
 	private boolean aBorneDeRechargeOuVoisin(Agglomeration agglomeration, Ville ville) {
-		if(ville.getZoneDeRecharge()==true && ville.getRechargeVoisin()==true) {//Vérifie si la ville ou l'un de ses voisins a une borne de recharge
+		if(ville.getRechargeVoisin()==true) {//Vérifie si la ville ou l'un de ses voisins a une borne de recharge
 			return true;//retourne vraie si une borne de recharge est présente dans la ville ou un de ses voisins
 		}
 		return false;//sinon faux
 	}
-
+	
 	//void decharge(String ville),
 	//Désactive la zone de recharge pour une ville spécifiée, 
 	//en la retirant de la liste des points de recharge, sous réserve de certaines conditions.
@@ -136,7 +143,6 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 						recharge.remove(villes.get(i));//met a jour les voisins dans la liste de recharge
 						rep = false;
 					}//if
-				
 					else {
 						// Affiche un message si la ville n'a pas de voisins avec une zone de recharge.	
 						System.out.println("Vous ne pouvez pas retirer la borne de recharge dans " + ville + ". Il n'y a pas de borne de recharge aux alentours.");
