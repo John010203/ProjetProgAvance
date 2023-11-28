@@ -31,7 +31,7 @@ public class Ville { // Attributs de la classe Ville.
 	
 	//boolean getZoneDeRecharge(),
 	// Méthode qui retourne l'état de la zone de recharge de la ville.
-	public boolean getZoneDeRecharge() {
+	public boolean getZoneDeRecharge(){ 
 		return this.zoneDeRecharge;
 	}
 

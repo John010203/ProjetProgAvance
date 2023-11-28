@@ -8,7 +8,7 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 	private List<Ville> recharge;
 	
 	public Agglomeration(List<Ville> villes) {//Initialise une agglomération avec une liste de villes.
-		this.villes = new ArrayList<Ville>(villes);
+		this.villes = villes;
 		this.routes = new ArrayList<Route>();
 		this.recharge = new ArrayList<Ville>(villes);
 	}//Agglomeration()
@@ -163,4 +163,18 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 			System.out.println(ville + " ne se trouve pas dans l'agglomération.");
 		}//if
 	}//decharge()
+
+	//methode qui renvoi un boolean pour verifier l'existence d'une ville
+	public boolean villeExiste(String nomVille) {
+		String nomsVilles = getVilles();
+		return nomsVilles.toUpperCase().contains(nomVille.toUpperCase());
+    }
+
+	//methode qui permet d'imprimer les routes 
+	public void imprimerRoutes() {
+		System.out.println("Routes de l'agglomération :");
+		for (Route route : this.routes) {
+			System.out.println("("+route.getVilleA().getNomVille() + "," + route.getVilleB().getNomVille()+ ")");
+		}
+	}
 }// Class Agglomeration
