@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class TestAgglomeration {
 	public static void main(String[] args) {
-		Scanner s = new Scanner(System.in);
+		try (Scanner s = new Scanner(System.in)){
 		int nbVilles, i, reponse;
 		String route1, route2, borne;
 		do {
@@ -75,6 +75,6 @@ public class TestAgglomeration {
 				break;
 			}
 		}
-		s.close();
+		}
 	}
 }

@@ -78,11 +78,9 @@ public class Main {
                 System.out.println("Le texte ne correspond pas au format attendu : "+ligne);
             }
         }
-
         Ag.imprimerRoutes();
-        System.out.println("voici les villes de l'agglomeration : " + Ag.getVilles());
-        
-        System.out.println("Voici les zones de recharges actuelles : " + Ag.getRecharge());
+        System.out.println("voici les villes de l'agglomeration : " + Ag.getVilles());        
+        System.out.println("Voici les zones de recharges actuelles : " + Ag.getVillesRecharge());
 
         // Fermer le BufferedReader
         br.close();

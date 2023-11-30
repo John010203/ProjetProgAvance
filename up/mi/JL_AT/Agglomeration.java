@@ -177,4 +177,15 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 			System.out.println("("+route.getVilleA().getNomVille() + "," + route.getVilleB().getNomVille()+ ")");
 		}
 	}
+
+	public String getVillesRecharge(){
+		StringBuffer sb = new StringBuffer();
+		for(Ville ville : villes){
+            if(ville.getZoneDeRecharge()){
+                sb.append(ville.getNomVille());
+				sb.append(" ");
+            }
+		}
+	return sb.toString();	
+	}
 }// Class Agglomeration
