@@ -90,6 +90,8 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 					this.villes.get(i).setZoneDeRecharge(true);
 					recharge.add(villes.get(i));
 					rep = false;
+					System.out.println(ville + " a maintenant une borne de recharge.");
+
 		
 					for(Route route : this.routes){// Met à jour les voisins des routes.
 						if(route.getVilleA().equals(villes.get(i))){
@@ -142,6 +144,8 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 						this.villes.get(i).setZoneDeRecharge(false);
 						recharge.remove(villes.get(i));//met a jour les voisins dans la liste de recharge
 						rep = false;
+						System.out.println(ville + " a été déchargé de sa borne de recharge.");
+
 					}//if
 					else {
 						// Affiche un message si la ville n'a pas de voisins avec une zone de recharge.	

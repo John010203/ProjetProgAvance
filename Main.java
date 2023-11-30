@@ -23,6 +23,7 @@ public class Main {
         Pattern patternVille = Pattern.compile("ville\\(([A-Za-z])\\)");
         Pattern patternRoute = Pattern.compile("route\\(([A-Za-z]),([A-Za-z])\\)");
         Pattern patternRecharge = Pattern.compile("recharge\\(([A-Za-z])\\)");
+        Pattern patternDecharge = Pattern.compile("decharge\\(([A-Za-z])\\)");
 
         // Lire ligne par ligne
         String ligne;
@@ -32,6 +33,7 @@ public class Main {
             Matcher matcherRoute=patternRoute.matcher(ligne.trim());
             Matcher matcherVille=patternVille.matcher(ligne.trim());
             Matcher matcherRecharge=patternRecharge.matcher(ligne.trim());
+            Matcher matcherDecharge=patternDecharge.matcher(ligne.trim());
 
             // Utilisation des if-else pour déterminer le type de la ligne
             if (matcherRoute.matches()) {
@@ -54,8 +56,7 @@ public class Main {
                 System.out.println("Création de la ville : "+ lettreVille);
                 villes.add(new Ville(String.valueOf(lettreVille.toUpperCase())));
 
-            //pour la creation d'une borne de recharge de la ville.
-            } else if (matcherRecharge.matches()) {
+            }else if (matcherRecharge.matches()) {
 
                 String lettreRecharge = matcherRecharge.group(1).toUpperCase();
                 boolean villeTrouvee = false;
@@ -63,8 +64,8 @@ public class Main {
                 for (Ville ville : villes) {
                     if (ville.getNomVille().equalsIgnoreCase(lettreRecharge)) {
                         villeTrouvee = true;
-                        if (!ville.getZoneDeRecharge()) {
-                            System.out.println(lettreRecharge + " a maintenant une borne de recharge.");
+                        if (!ville.getZoneDeRecharge()){
+                            Ag.recharge(lettreRecharge);
                         } else {
                             System.out.println(lettreRecharge + " a déjà une borne de recharge.");
                         }
@@ -74,10 +75,37 @@ public class Main {
                 if (!villeTrouvee) {
                     System.out.println(lettreRecharge + " ne se trouve pas dans l'agglomération.");
                 }
-            } else {
+            } 
+
+
+
+            //pour decharger la ville.
+            else if (matcherDecharge.matches()) {
+
+                String lettreDecharge = matcherDecharge.group(1).toUpperCase();
+                boolean villeTrouvee = false;
+
+                for (Ville ville : villes) {
+                    if (ville.getNomVille().equalsIgnoreCase(lettreDecharge)) {
+                        villeTrouvee = true;
+                        if (ville.getZoneDeRecharge()){
+                            Ag.decharge(lettreDecharge);
+                        } else {
+                            System.out.println(lettreDecharge + "n'a pas de borne de recharge.");
+                        }
+                        break;  // Sortir de la boucle une fois la ville trouvée
+                    }
+                }
+                if (!villeTrouvee) {
+                    System.out.println(lettreDecharge + " ne se trouve pas dans l'agglomération.");
+                }
+            } 
+             
+            else {
                 System.out.println("Le texte ne correspond pas au format attendu : "+ligne);
             }
         }
+
         Ag.imprimerRoutes();
         System.out.println("voici les villes de l'agglomeration : " + Ag.getVilles());        
         System.out.println("Voici les zones de recharges actuelles : " + Ag.getVillesRecharge());
@@ -85,4 +113,5 @@ public class Main {
         // Fermer le BufferedReader
         br.close();
     }
+
 }
