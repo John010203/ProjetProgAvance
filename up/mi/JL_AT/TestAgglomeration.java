@@ -31,7 +31,7 @@ public class TestAgglomeration {
 			
 			reponse = s.nextInt();
 			s.nextLine();
-			
+
 			switch(reponse) {
 			case 1:
 				System.out.println("Dans quelle ville de départ souhaitez-vous ajouter une route ");

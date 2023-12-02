@@ -9,7 +9,7 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 	
 	public Agglomeration(List<Ville> villes) {//Initialise une agglomération avec une liste de villes.
 		this.villes = villes;
-		this.routes = new ArrayList<Route>();
+		this.routes = new ArrayList<Route>();	
 		this.recharge = new ArrayList<Ville>(villes);
 	}//Agglomeration()
 	
@@ -167,29 +167,37 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 			System.out.println(ville + " ne se trouve pas dans l'agglomération.");
 		}//if
 	}//decharge()
-
-	//methode qui renvoi un boolean pour verifier l'existence d'une ville
+	// Méthode qui renvoie un boolean pour vérifier l'existence d'une ville
 	public boolean villeExiste(String nomVille) {
+		// Obtient une chaîne contenant les noms de toutes les villes dans l'agglomération.
 		String nomsVilles = getVilles();
+		// Vérifie si la chaîne des noms de villes contient le nom de la ville spécifiée.
 		return nomsVilles.toUpperCase().contains(nomVille.toUpperCase());
-    }
+	}
 
-	//methode qui permet d'imprimer les routes 
+	// Méthode qui permet d'imprimer les routes de l'agglomération.
 	public void imprimerRoutes() {
 		System.out.println("Routes de l'agglomération :");
+		// Parcours toutes les routes de l'agglomération.
 		for (Route route : this.routes) {
-			System.out.println("("+route.getVilleA().getNomVille() + "," + route.getVilleB().getNomVille()+ ")");
+			// Imprime les villes reliées par chaque route.
+			System.out.println("(" + route.getVilleA().getNomVille() + "," + route.getVilleB().getNomVille() + ")");
 		}
 	}
 
-	public String getVillesRecharge(){
+	// Méthode qui retourne une chaîne de caractères représentant les noms des villes en zone de recharge.
+	public String getVillesRecharge() {
 		StringBuffer sb = new StringBuffer();
-		for(Ville ville : villes){
-            if(ville.getZoneDeRecharge()){
-                sb.append(ville.getNomVille());
+		// Parcours toutes les villes de l'agglomération.
+		for (Ville ville : villes) {
+			// Vérifie si la ville a une zone de recharge.
+			if (ville.getZoneDeRecharge()) {
+				// Ajoute le nom de la ville.
+				sb.append(ville.getNomVille());
 				sb.append(" ");
-            }
+			}
 		}
-	return sb.toString();	
+		// Retourne la chaîne résultante
+		return sb.toString();
 	}
-}// Class Agglomeration
+}

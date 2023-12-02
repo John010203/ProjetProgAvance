@@ -100,12 +100,10 @@ public class Main {
                     System.out.println(lettreDecharge + " ne se trouve pas dans l'agglomération.");
                 }
             } 
-             
             else {
                 System.out.println("Le texte ne correspond pas au format attendu : "+ligne);
             }
         }
-
         Ag.imprimerRoutes();
         System.out.println("voici les villes de l'agglomeration : " + Ag.getVilles());        
         System.out.println("Voici les zones de recharges actuelles : " + Ag.getVillesRecharge());
@@ -113,5 +111,4 @@ public class Main {
         // Fermer le BufferedReader
         br.close();
     }
-
 }
