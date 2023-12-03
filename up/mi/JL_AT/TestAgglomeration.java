@@ -11,7 +11,7 @@ public class TestAgglomeration {
 			System.out.println("Entrez le nombre de villes (entre 1 et 26 inclus) : ");
 			nbVilles = s.nextInt();
 		}
-		while(nbVilles>26 && nbVilles <= 0);
+		while(nbVilles>26 || nbVilles <1);
 		
 		List<Ville> villes = new ArrayList<Ville>();
 		
