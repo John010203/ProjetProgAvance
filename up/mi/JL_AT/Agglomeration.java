@@ -139,31 +139,28 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 	}
 
 	private boolean voisinsRecharge(Ville ville) {
-		boolean voisinsRecharge=false;
-		if(ville.voisinsSansRecharge().isEmpty() && !ville.voisinsAvecRecharge().isEmpty()) {
-			voisinsRecharge=true;
+		if(ville.voisinsSansRecharge().size()==0 && ville.voisinsAvecRecharge().size()>0) {
+			return true;
 		}
-		else if(!ville.voisinsSansRecharge().isEmpty() && !ville.voisinsAvecRecharge().isEmpty()){
-			for(int j=0;j<ville.voisinsSansRecharge().size();j++){
-				if(ville.voisinsSansRecharge().get(j).voisinsSansRecharge().size()==0){
-					ville.voisinsSansRecharge().get(j).removeVoisins(ville);
-					if(voisinsRecharge(ville.voisinsSansRecharge().get(j)) && ville.voisinsSansRecharge().size()>0) {
-						System.out.println(ville.getNomVille() + " a des voisins avec des bornes de recharges, vous pouvez retirer sa borne de recharge.");
-						voisinsRecharge=true;
-					}
-					else if(voisinsRecharge(ville.voisinsSansRecharge().get(j)) && ville.voisinsSansRecharge().size()==0) {
-						System.out.println(ville.getNomVille() + " a des voisins sans borne de recharge, vous ne pouvez pas retirer sa borne de recharge.");
-						voisinsRecharge=false;
-						return voisinsRecharge;
-					}
-					else {
-						System.out.println(ville.getNomVille() + " a des voisins sans borne de recharge, vous ne pouvez pas retirer sa borne de recharge.");
-					}
-					ville.voisinsSansRecharge().get(j).setVoisins(ville);
+		
+		for(int j=0;j<ville.voisinsSansRecharge().size();j++){
+			System.out.println("voisins1 : "+ville.voisinsSansRecharge().get(j).getVoisins());
+			if(ville.voisinsSansRecharge().get(j).voisinsSansRecharge().size()==0){
+				ville.voisinsSansRecharge().get(j).removeVoisins(ville);
+				System.out.println("voisins2 : "+ville.voisinsSansRecharge().get(j).getVoisins());
+				if(voisinsRecharge(ville.voisinsSansRecharge().get(j)) && ville.voisinsSansRecharge().size()>0) {
+					System.out.println(ville.getNomVille() + " a des voisins avec des bornes de recharges, vous pouvez retirer sa borne de recharge.");
+					return true;
 				}
+				else if(voisinsRecharge(ville.voisinsSansRecharge().get(j)) && ville.voisinsSansRecharge().size()==0) {
+					System.out.println(ville.getNomVille() + " a des voisins sans borne de recharge, vous ne pouvez pas retirer sa borne de recharge1.");
+					return false;
+				}
+				ville.voisinsSansRecharge().get(j).setVoisins(ville);
+				System.out.println("voisins3 : "+ville.voisinsSansRecharge().get(j).getVoisins());
 			}
 		}
-		return voisinsRecharge;
+		return false;
 	}
 	
 	private void setDecharge(Ville ville) {
