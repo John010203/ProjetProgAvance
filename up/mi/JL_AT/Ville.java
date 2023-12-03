@@ -29,6 +29,10 @@ public class Ville { // Attributs de la classe Ville.
 		this.voisins.add(v) ;
 	}//setVoisins()
 	
+	public void removeVoisins(Ville v) {
+		this.voisins.remove(v) ;
+	}
+
 	//boolean getZoneDeRecharge(),
 	// Méthode qui retourne l'état de la zone de recharge de la ville.
 	public boolean getZoneDeRecharge(){ 
@@ -47,38 +51,27 @@ public class Ville { // Attributs de la classe Ville.
 		return sb.toString();
 	}// getVoisins()
 
-	//boolean checkRechargeVoisin(),
-    // Méthode qui retourne un boolean et permet vérifier si au moins un voisin a une zone de recharge activée.
-	// private boolean checkRechargeVoisin(List<Ville> voisins, Ville villeExclu){
-	// 	boolean rep=false;
-	// 	if(!voisins.isEmpty()) {//Vérifie que la liste de voisins n'est pas vide
-	// 		for (Ville voisin : voisins) {
-	// 			System.out.println("REP : " + rep +" "+ voisin.nomVille + " " + voisin.getZoneDeRecharge() );
-	// 			if (voisin.getZoneDeRecharge()==true && !voisin.equals(villeExclu)){//Vérifie que les voisins ont une borne de recharge
-	// 				rep=true;
-	// 			}//if	
-	// 		}//for
-	// 	}//if
-	// 	return rep;
+	public List<Ville> getListVoisins(){
+		return voisins;
+	}
 
-	// }//checkRechargeVoisin()
-
-	private boolean checkRecharge(List<Ville> voisins, Ville villeExclu){
-			boolean rep=false;
-			for(int i=0;i<voisins.size();i++){
-				if(voisins.get(i).getZoneDeRecharge() && voisins.get(i).getNomVille()!= villeExclu.getNomVille()){
-					rep=true;
-				}else{
-					return false;
-				}//else
-			}//if
-	return rep;
-	}//checkRecharge()
-
-
-	//boolean getRechargeVOisin(),
-	//Méthode qui retourne un boolean et qui appelle la méthode privée qui vérifie si un voisin a une borne de recharge
-	public boolean getRechargeVoisin(){
-		return checkRecharge(voisins,this);
-	}//getRechargeVoisin()
+	public List<Ville> voisinsSansRecharge(){
+		List<Ville> voisinsSansRecharge = new ArrayList<Ville>();
+		for(Ville villes : voisins) {
+			if(!villes.getZoneDeRecharge()) {
+				voisinsSansRecharge.add(villes);
+			}
+		}
+		return voisinsSansRecharge;
+	}
+	
+	public List<Ville> voisinsAvecRecharge(){
+		List<Ville> voisinsAvecRecharge = new ArrayList<Ville>();
+		for(Ville villes : voisins) {
+			if(villes.getZoneDeRecharge()) {
+				voisinsAvecRecharge.add(villes);
+			}
+		}
+		return voisinsAvecRecharge;
+	}
 }//Classe Ville.
