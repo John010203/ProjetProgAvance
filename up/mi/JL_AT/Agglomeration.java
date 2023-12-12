@@ -203,13 +203,14 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 	}
 
 	// Méthode qui permet d'imprimer les routes de l'agglomération.
-	public void imprimerRoutes() {
-		System.out.println("Routes de l'agglomération :");
+	public String imprimerRoutes() {
+		StringBuffer sb = new StringBuffer("Routes de l'agglomération : \n ");
 		// Parcours toutes les routes de l'agglomération.
-		for (Route route : this.routes) {
+		for (Route route : this.routes){
 			// Imprime les villes reliées par chaque route.
-			System.out.println("(" + route.getVilleA().getNomVille() + "," + route.getVilleB().getNomVille() + ")");
+			sb.append("["+ route.getVilleA().getNomVille() + "," + route.getVilleB().getNomVille()+"]" + "\n");
 		}
+		return sb.toString();
 	}
 
 	// Méthode qui retourne une chaîne de caractères représentant les noms des villes en zone de recharge.
@@ -226,5 +227,8 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 		}
 		// Retourne la chaîne résultante
 		return sb.toString();
+	}
+	public List<Route> getRoutes() {
+		return this.routes;
 	}
 }

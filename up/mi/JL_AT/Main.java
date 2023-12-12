@@ -77,8 +77,6 @@ public class Main {
                 }
             } 
 
-
-
             //pour decharger la ville.
             else if (matcherDecharge.matches()) {
 
@@ -107,7 +105,7 @@ public class Main {
         Ag.imprimerRoutes();
         System.out.println("voici les villes de l'agglomeration : " + Ag.getVilles());        
         System.out.println("Voici les zones de recharges actuelles : " + Ag.getVillesRecharge());
-
+        
         // Fermer le BufferedReader
         br.close();
     }

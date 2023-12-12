@@ -12,5 +12,5 @@ public class Route {//Attributs de Route.
 	}
 	public Ville getVilleB() {
 		return B;
-	}
+}
 }
