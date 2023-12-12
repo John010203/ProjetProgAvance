@@ -139,13 +139,15 @@ import java.io.*;
                         List<Ville> villesAutomatique = new ArrayList<Ville>();
                         Agglomeration AgAutomatique = new Agglomeration(villesAutomatique);
                     
+
+                         
                         // Le fichier d'entrée
-                        File file = new File("file.txt");
+                        File file = new File("file.ca");
                     
                         try {
                             // Vérifier si le fichier existe
                             if (!file.exists()) {
-                                throw new FileNotFoundException("Le fichier file.txt n'a pas été trouvé.");
+                                throw new FileNotFoundException("Le fichier file.ca n'a pas été trouvé.");
                             }
                     
                             // Créer l'objet FileReader
@@ -246,18 +248,21 @@ import java.io.*;
                         AgSauvegarde=AgAutomatique;
                         break;
                     case 3:
-
+                        if(AgSauvegarde==null){
+                            System.out.println("Il n'ya aucune solution pour l'instant, veuillez effectuer le choix 1 , 2 ou 4.");
+                            break;
+                        }
                     // Permet de Sauvegarder dans un fichier txt la solution.
                         try {
                             System.out.println("Veuillez Entrez le nom du Fichier ou contiendra la sauvegarde (sans le .txt).");
                             String nomFichier = s.nextLine();
-                            File sauvegardeFichier = new File(nomFichier+".txt");
+                            File sauvegardeFichier = new File(nomFichier+".ca");
                             if (sauvegardeFichier.createNewFile()){
                             System.out.println("File created: " + sauvegardeFichier.getName());
                             } else {
                             System.out.println("Le Fichier existe déjà.");
                             }
-                            FileWriter ecrireFichier = new FileWriter(nomFichier+".txt");
+                            FileWriter ecrireFichier = new FileWriter(nomFichier+".ca");
                             ecrireFichier.write(AgSauvegarde.getVilles()+ "\n");
                             ecrireFichier.write(AgSauvegarde.imprimerRoutes() + "\n");
 

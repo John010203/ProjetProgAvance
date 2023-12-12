@@ -48,14 +48,13 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 				break;
 			}//if
 		}//for
-		if(!existe) {
+		if(!existe){
 			routes.add(routeVille);//ajoute la Ville dans la liste routes.
 			routeVille.getVilleA().setVoisins(routeVille.getVilleB());
 			routeVille.getVilleB().setVoisins(routeVille.getVilleA());
 			System.out.println("La route reliant " + routeVille.getVilleA().getNomVille() + " à " + routeVille.getVilleB().getNomVille() + " a bien été ajouté.");
 		}
 	}//setRoute()
-	
 	// void ajoutRoute(String ville1,String ville2),
 	// Ajoute une route entre deux villes spécifiées.
 	public void ajoutRoute(String ville1, String ville2){
