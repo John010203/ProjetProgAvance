@@ -51,27 +51,30 @@ public class Ville { // Attributs de la classe Ville.
 		return sb.toString();
 	}// getVoisins()
 
+	//Méthode qui retourne la liste de voisins de la ville
 	public List<Ville> getListVoisins(){
 		return voisins;
 	}
-
+	
+	//Méthode qui retourne la liste de voisins sans borne de recharge de la ville 
 	public List<Ville> voisinsSansRecharge(){
 		List<Ville> voisinsSansRecharge = new ArrayList<Ville>();
 		for(Ville villes : voisins) {
 			if(!villes.getZoneDeRecharge()) {
 				voisinsSansRecharge.add(villes);
 			}
-		}
+		}//for
 		return voisinsSansRecharge;
 	}
 	
+	//Méthode qui retourne la liste de voisins avec une borne de recharge de la ville
 	public List<Ville> voisinsAvecRecharge(){
 		List<Ville> voisinsAvecRecharge = new ArrayList<Ville>();
 		for(Ville villes : voisins) {
 			if(villes.getZoneDeRecharge()) {
 				voisinsAvecRecharge.add(villes);
 			}
-		}
+		}//for
 		return voisinsAvecRecharge;
 	}
 }//Classe Ville.

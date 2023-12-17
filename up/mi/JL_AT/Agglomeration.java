@@ -24,9 +24,11 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 	
 	public String getRecharge() {//Methode qui retourne une chaîne de caractères représentant les noms des villes où la recharge est possible.
 		StringBuffer sb = new StringBuffer();
-		for (int i =0; i< recharge.size();i++) {
-			sb.append(recharge.get(i).getNomVille());
-			sb.append(" ");
+		for (int i=0; i< villes.size();i++) {//parcours la liste de ville
+			if(villes.get(i).getZoneDeRecharge()) {//Vérifie si la ville a une borne
+				sb.append(villes.get(i).getNomVille());
+				sb.append(" ");
+			}
 		}//for
 		return sb.toString();
 	}//getRecharge()
@@ -41,7 +43,7 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 		if(routeVille.getVilleA().equals(routeVille.getVilleB())){//Si la Ville choisi est la même ville.
 			System.out.println("Vous ne pouvez pas rajouter une route dans la ville elle-même.");
 		}//if
-		for (Route routes2 : this.routes){//si une route existe déjà.
+		for (Route routes2 : this.routes){//Vérifie si la route existe déjà
 			if ((routes2.getVilleA().equals(routeVille.getVilleA())) && (routes2.getVilleB().equals(routeVille.getVilleB())) || (routes2.getVilleA().equals(routeVille.getVilleB())) && (routes2.getVilleB().equals(routeVille.getVilleA()))){
 				System.out.println("La route reliant " + routeVille.getVilleA().getNomVille() + " à " + routeVille.getVilleB().getNomVille() + " existe déjà.");			
 				existe=true;
@@ -120,10 +122,11 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 		}//if
 	}//recharge()
 
+	//Méthode qui vérifie si la ville spécifié existe dans l'agglomération
 	private boolean villeExistante(String ville) {
 		boolean rep = true;
 		int i = 0;
-		while(rep && i < this.villes.size()) {
+		while(rep && i < this.villes.size()) {//Parcours la liste de ville jusqu'à trouver la ville ou atteindre la fin
 			if(this.villes.get(i).getNomVille().equals(ville)){
 				return true;
 			}
@@ -133,40 +136,41 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 		return false;
 	}
 
+	//Méthode qui renvoie true si la ville n'a aucun voisin sinon false
 	private boolean sansVoisins(Ville ville) {
 		return ville.voisinsSansRecharge().isEmpty() && ville.voisinsAvecRecharge().isEmpty();
 	}
 
+	//Méthode qui renvoie true si la ville a au moins un voisin avec une borne de recharge sinon false
 	private boolean voisinsRecharge(Ville ville) {
 		if(ville.voisinsSansRecharge().size()==0 && ville.voisinsAvecRecharge().size()>0) {
 			return true;
 		}
 		
 		for(int j=0;j<ville.voisinsSansRecharge().size();j++){
-			System.out.println("voisins1 : "+ville.voisinsSansRecharge().get(j).getVoisins());
 			if(ville.voisinsSansRecharge().get(j).voisinsSansRecharge().size()==0){
 				ville.voisinsSansRecharge().get(j).removeVoisins(ville);
-				System.out.println("voisins2 : "+ville.voisinsSansRecharge().get(j).getVoisins());
 				if(voisinsRecharge(ville.voisinsSansRecharge().get(j)) && ville.voisinsSansRecharge().size()>0) {
 					System.out.println(ville.getNomVille() + " a des voisins avec des bornes de recharges, vous pouvez retirer sa borne de recharge.");
 					return true;
 				}
 				else if(voisinsRecharge(ville.voisinsSansRecharge().get(j)) && ville.voisinsSansRecharge().size()==0) {
-					System.out.println(ville.getNomVille() + " a des voisins sans borne de recharge, vous ne pouvez pas retirer sa borne de recharge1.");
+					System.out.println(ville.getNomVille() + " a des voisins sans borne de recharge, vous ne pouvez pas retirer sa borne de recharge.");
 					return false;
 				}
 				ville.voisinsSansRecharge().get(j).setVoisins(ville);
-				System.out.println("voisins3 : "+ville.voisinsSansRecharge().get(j).getVoisins());
 			}
 		}
 		return false;
 	}
 	
+	//Méthode qui désactive la borne de recharge d'une ville spécifié si tous les voisins respectent la condition d'accessibilité
 	private void setDecharge(Ville ville) {
 		if(sansVoisins(ville)) {
 			System.out.println(ville.getNomVille() + " n'a pas de voisins, vous ne pouvez pas retirer sa borne de recharge.");
 		}
 		else if(voisinsRecharge(ville)){
+			//Désactive la borne de recharge et met à jour la liste des bornes de recharges construites
 			ville.setZoneDeRecharge(false);
 			this.recharge.remove(ville);
 			System.out.println(ville.getNomVille() + " a retirer sa borne de recharge.");
@@ -176,22 +180,53 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 	//Désactive la zone de recharge pour une ville spécifiée, 
 	//en la retirant de la liste des points de recharge, sous réserve de certaines conditions.
 	public void decharge(String ville) {
-		if(!villeExistante(ville)) {
+		if(!villeExistante(ville)) {//Vérifie si la ville existe dans l'agglomération
 			System.out.println(ville + " ne se trouve pas dans l'agglomération.");
 		}
 		else {
-			for(int i=0;i < this.villes.size();i++) {
-				if(this.villes.get(i).getNomVille().equals(ville)){
-					if(!this.villes.get(i).getZoneDeRecharge()){
+			for(int i=0;i < this.villes.size();i++) {//Parcours la liste des villes
+				if(this.villes.get(i).getNomVille().equals(ville)){//Vérifie si la ville correspond à la ville spécifié
+					if(!this.villes.get(i).getZoneDeRecharge()){//Vérifie si la ville n'a pas de borne de recharge
 						System.out.println(ville + " n'a pas de borne de recharge.");	
 					}
 					else {
-						setDecharge(this.villes.get(i));
+						setDecharge(this.villes.get(i));//Apelle de la méthode qui vérifie si la borne peut être retiré
 					}
 				}
 			}
 		}
 	}//decharge()
+
+	public void AlgorithmeGlouton() {
+		//Etape 1 : Tri des routes par nombre total de voisins
+		Collections.sort(routes, (ville1,ville2) -> Integer.compare(ville1.getVilleA().getListVoisins().size(), ville2.getVilleA().getListVoisins().size()));
+		//Etape 2 : Initialisation
+		for(Ville ville : villes) {
+			ville.setZoneDeRecharge(false);
+		}
+		List<Ville> bornesConstruites = new ArrayList<>();
+		//Etape 3 : Parcours des routes triées
+		for(Route route : routes) {
+			Ville villeA = route.getVilleA();
+			Ville villeB = route.getVilleB();
+			//Vérifie si au moins une des villes est déjà couverte
+			if((!villeA.getZoneDeRecharge() && villeA.voisinsAvecRecharge().size()==0) || (!villeB.getZoneDeRecharge() && villeB.voisinsAvecRecharge().size()==0)) {
+				//Aucune des villes n'est couverte, on ajoute une borne dans la ville avec le plus de voisin
+				Ville villeAvecBorne = (villeA.getListVoisins().size() > villeB.getListVoisins().size()) ? villeA : villeB;
+				villeAvecBorne.setZoneDeRecharge(true);
+				bornesConstruites.add(villeAvecBorne);
+				System.out.println("Borne de recharge contruite à : " + villeAvecBorne.getNomVille());
+			}
+		}
+		//Ajout de bornes aux villes non reliés à d'autres villes par une route
+		for(Ville ville : villes) {
+			if(!ville.getZoneDeRecharge() && ville.getListVoisins().isEmpty()) {
+				ville.setZoneDeRecharge(true);
+				bornesConstruites.add(ville);
+				System.out.println("Borne de recharge contruite à : " + ville.getNomVille());
+			}
+		}
+	}
 
 	// Méthode qui renvoie un boolean pour vérifier l'existence d'une ville
 	public boolean villeExiste(String nomVille) {
