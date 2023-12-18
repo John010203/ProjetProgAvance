@@ -144,28 +144,24 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 
 	//Méthode qui renvoie true si la ville a au moins un voisin avec une borne de recharge sinon false
 	private boolean voisinsRecharge(Ville ville) {
-		if(ville.voisinsSansRecharge().size()>0 && ville.voisinsAvecRecharge().size()==0) {
-			return false;
-		}
-		else if(ville.voisinsSansRecharge().size()==0 && ville.voisinsAvecRecharge().size()>0) {
+		List<Ville> voisinsSansRecharge = ville.voisinsSansRecharge();
+		List<Ville> voisinsAvecRecharge = ville.voisinsAvecRecharge();
+
+		if(voisinsSansRecharge.isEmpty() && !voisinsAvecRecharge.isEmpty()) {//tous les voisins ont une borne
 			return true;
 		}
-		
-		for(int j=0;j<ville.voisinsSansRecharge().size();j++){
-			if(ville.voisinsSansRecharge().get(j).voisinsSansRecharge().size()==0){
-				ville.voisinsSansRecharge().get(j).removeVoisins(ville);
-				if(voisinsRecharge(ville.voisinsSansRecharge().get(j)) && ville.voisinsSansRecharge().size()>0) {
-					System.out.println(ville.getNomVille() + " a des voisins avec des bornes de recharges, vous pouvez retirer sa borne de recharge.");
-					return true;
-				}
-				else if(voisinsRecharge(ville.voisinsSansRecharge().get(j)) && ville.voisinsSansRecharge().size()==0) {
-					System.out.println(ville.getNomVille() + " a des voisins sans borne de recharge, vous ne pouvez pas retirer sa borne de recharge.");
+		else if(!ville.voisinsSansRecharge().isEmpty() && !ville.voisinsAvecRecharge().isEmpty()){
+			for(Ville voisinSansRecharge : voisinsSansRecharge) {
+				if(voisinSansRecharge.voisinsAvecRecharge().size()==0 || voisinSansRecharge.voisinsAvecRecharge().size()==1) {
+					System.out.println("possède un voisin sans recharge.");
 					return false;
 				}
-				ville.voisinsSansRecharge().get(j).setVoisins(ville);
 			}
+			return true;
 		}
-		return false;
+		else {
+			return false;//Tous les voisins n'ont pas de borne
+		}
 	}
 	
 	//Méthode qui désactive la borne de recharge d'une ville spécifié si tous les voisins respectent la condition d'accessibilité
