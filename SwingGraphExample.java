@@ -5,24 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class SwingGraphExample extends JPanel {
-    List<Ville> villes;
-    List<Route> routes;
-    Map<Ville, Point> villePositions;
+public class SwingGraphExample extends JPanel {
+    private Agglomeration agglomeration;
+    private Map<Ville, Point> villePositions;
 
-    public SwingGraphExample(List<Ville> villes, List<Route> routes) {
-        this.villes = villes;
-        this.routes = routes;
-        this.villePositions = new HashMap<>();
+    public SwingGraphExample(Agglomeration agglomeration) {
+        this.agglomeration = agglomeration;
+        this.villePositions = initializeVillePositions();
+    }
 
+    private Map<Ville, Point> initializeVillePositions() {
         // Initialisez les positions des villes
         int x = 100;
         int y = 100;
-        for (Ville ville : villes) {
+        for (Ville ville : agglomeration.getVilles()) {
             villePositions.put(ville, new Point(x, y));
             x += 100;
             y += 100;
         }
+        return villePositions;
     }
 
     protected void paintComponent(Graphics g) {
@@ -30,19 +31,18 @@ class SwingGraphExample extends JPanel {
 
         // Dessiner les routes
         g.setColor(Color.BLACK);
-        for (Route route : routes) {
-            Ville villeA = route.getVilleA();
-            Ville villeB = route.getVilleB();
+        for (Ville ville : agglomeration.getVilles()) {
+            Point posA = getCenter(ville);
 
-            Point posA = getCenter(villeA);
-            Point posB = getCenter(villeB);
-
-            // Dessiner la route entre villeA et villeB
-            g.drawLine(posA.x, posA.y, posB.x, posB.y);
+            // Dessiner les routes vers les voisins de la ville
+            for (Ville voisin : agglomeration.getVoisins(ville)) {
+                Point posB = getCenter(voisin);
+                g.drawLine(posA.x, posA.y, posB.x, posB.y);
+            }
         }
 
         // Dessiner les villes et indiquer la présence de borne de recharge
-        for (Ville ville : villes) {
+        for (Ville ville : agglomeration.getVilles()) {
             g.setColor(Color.BLUE);
             // Dessiner une ellipse pour représenter la ville
             Point pos = getCenter(ville);
@@ -55,8 +55,7 @@ class SwingGraphExample extends JPanel {
     }
 
     private Point getCenter(Ville ville) {
-        Point pos = villePositions.get(ville);
-        return new Point(pos.x, pos.y);
+        return villePositions.get(ville);
     }
 
     public static void main(String[] args) {
@@ -75,7 +74,7 @@ class SwingGraphExample extends JPanel {
             routes.add(new Route(villes.get(0), villes.get(1)));
             routes.add(new Route(villes.get(1), villes.get(2)));
 
-            SwingGraphExample graphPanel = new SwingGraphExample(villes, routes);
+            SwingGraphExample graphPanel = new SwingGraphExample(agglomeration);
             frame.add(graphPanel);
 
             frame.setVisible(true);

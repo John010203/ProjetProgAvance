@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class Agglomeration { //Attributs de la classe Agglomeration.
 
@@ -197,7 +198,7 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 		}
 	}//decharge()
 
-	public void AlgorithmeGlouton() {
+	public String AlgorithmeGlouton(){
 		//Etape 1 : Tri des routes par nombre total de voisins
 		Collections.sort(routes, (ville1,ville2) -> Integer.compare(ville1.getVilleA().getListVoisins().size(), ville2.getVilleA().getListVoisins().size()));
 		//Etape 2 : Initialisation
@@ -226,6 +227,7 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 				System.out.println("Borne de recharge contruite à : " + ville.getNomVille());
 			}
 		}
+		return this.getRecharge();
 	}
 
 	// Méthode qui renvoie un boolean pour vérifier l'existence d'une ville
