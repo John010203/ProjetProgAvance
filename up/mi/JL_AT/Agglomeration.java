@@ -144,7 +144,10 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 
 	//Méthode qui renvoie true si la ville a au moins un voisin avec une borne de recharge sinon false
 	private boolean voisinsRecharge(Ville ville) {
-		if(ville.voisinsSansRecharge().size()==0 && ville.voisinsAvecRecharge().size()>0) {
+		if(ville.voisinsSansRecharge().size()>0 && ville.voisinsAvecRecharge().size()==0) {
+			return false;
+		}
+		else if(ville.voisinsSansRecharge().size()==0 && ville.voisinsAvecRecharge().size()>0) {
 			return true;
 		}
 		
