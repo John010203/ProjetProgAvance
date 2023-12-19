@@ -10,10 +10,25 @@ import java.io.*;
     public class Main{
         private static Agglomeration AgSauvegarde;
         
-        private static boolean SoluceAuto=false;
-        private static boolean SoluceManuelle=false;
+        static boolean SoluceAuto;
+        static boolean SoluceManuelle;
 
         public static void main(String[] args) throws IOException{
+
+    // Lire ligne par ligne
+            String ligne;
+    // Expression régulière pour "ville" "route".
+            Pattern patternVille = Pattern.compile("ville\\(([A-Za-z])\\)");
+            Pattern patternRoute = Pattern.compile("route\\(([A-Za-z]),([A-Za-z])\\)");
+
+    // Le fichier d'entrée
+
+            File file = new File("file.ca");
+    // Créer l'objet FileReader
+            FileReader fr = new FileReader(file);
+                    
+            // Créer l'objet BufferedReader
+            BufferedReader br = new BufferedReader(fr);
 
             Scanner s = new Scanner(System.in);
             int choix;
@@ -42,30 +57,27 @@ import java.io.*;
                     //Résoudre Manuellement 
                     case 1: 
                         int nbVilles=0;
-                        int i, reponse;
+                        int reponse;
                         String route1, route2, borne;
-                        do{
-                            try{
-                                System.out.println("Entrez le nombre de villes (entre 1 et 26 inclus) : ");
-                                nbVilles = s.nextInt();
-                                s.nextLine();
-                                if (nbVilles <= 0 || nbVilles > 26) {
-                                    throw new IllegalArgumentException("Le nombre de villes doit être entre 1 et 26.");
-                                }
-                            } catch (Exception e) {
-                                System.out.println("Erreur : " + e.getMessage());
-                                s.nextLine(); // Vider le scanner
-                            }
-                        }
-
-                        while(nbVilles>26 && nbVilles <= 0);   
+   
                         List<Ville> villes = new ArrayList<Ville>();
-
-                        for(i=0;i<nbVilles;i++) {
-                            char nomVille = (char)('A'+i);
-                            villes.add(new Ville(String.valueOf(nomVille)));
-                        }
-
+                        
+                            // Vérifier si le fichier existe
+                            if (!file.exists()) {
+                                throw new FileNotFoundException("Le fichier file.ca n'a pas été trouvé.");
+                            }
+                            // // Lire ligne par ligne
+                            // String ligne;
+                            while ((ligne = br.readLine()) != null){
+                                            
+                                Matcher matcherVille = patternVille.matcher(ligne.trim());
+                                if (matcherVille.matches()) {
+                        
+                                        String lettreVille = matcherVille.group(1).toUpperCase();
+                                        System.out.println("Création de la ville : " + lettreVille);
+                                        villes.add(new Ville(String.valueOf(lettreVille.toUpperCase())));
+                                }
+                            }
                         Agglomeration Ag = new Agglomeration(villes);
 
                         System.out.println("L'agglomération à " + nbVilles + " villes");
@@ -87,7 +99,6 @@ import java.io.*;
                                 route2 = s.nextLine();
                                 try {
                                     Ag.ajoutRoute(route1, route2);
-                                    System.out.println("La route reliant " + route1 + " à " + route2 + " a bien été ajoutée.");
                                 } catch (IllegalArgumentException e) {
                                     System.out.println("Erreur : " + e.getMessage());
                                 }
@@ -114,7 +125,6 @@ import java.io.*;
                                 borne = s.nextLine();
                                 try {
                                     Ag.recharge(borne);
-                                    System.out.println("La borne " + borne + " a bien été rechargée");
                                 } catch (IllegalArgumentException e) {
                                     System.out.println("Erreur : " + e.getMessage());
                                 }
@@ -125,7 +135,6 @@ import java.io.*;
                                 borne = s.nextLine();
                                  try {
                                     Ag.decharge(borne);
-                                    System.out.println("La borne " + borne + " a bien été déchargée");
                                 } catch (IllegalArgumentException e) {
                                     System.out.println("Erreur : " + e.getMessage());
                                 }
@@ -134,57 +143,39 @@ import java.io.*;
                                 rep=false;
                                 break;
                             }
-                        }   
+                        }
+                
                         AgSauvegarde=Ag;
                         SoluceAuto=false;
                         SoluceManuelle=true;
 
                         break;
                         //soloution AUTOMATIQUE a partir du fichier file.txt
-
+///////////////////    fin case 1                      ///////////////////////////////////////
                     case 2:
                         List<Ville> villesAutomatique = new ArrayList<Ville>();
                         Agglomeration AgAutomatique = new Agglomeration(villesAutomatique);
                     
                         // Le fichier d'entrée
-                        File file = new File("file.ca");
+                        // File file = new File("file.ca");
                     
                         try {
                             // Vérifier si le fichier existe
                             if (!file.exists()) {
                                 throw new FileNotFoundException("Le fichier file.ca n'a pas été trouvé.");
                             }
-                    
-                            // Créer l'objet FileReader
-                            FileReader fr = new FileReader(file);
-                    
-                            // Créer l'objet BufferedReader
-                            BufferedReader br = new BufferedReader(fr);
-                            // Expression régulière pour "ville" "route" "recharge" "decharge".
-                            Pattern patternVille = Pattern.compile("ville\\(([A-Za-z])\\)");
-                            Pattern patternRoute = Pattern.compile("route\\(([A-Za-z]),([A-Za-z])\\)");
-                            Pattern patternRecharge = Pattern.compile("recharge\\(([A-Za-z])\\)");
-                            Pattern patternDecharge = Pattern.compile("decharge\\(([A-Za-z])\\)");
-                    
-                            // Lire ligne par ligne
-                            String ligne;
+                            // // Lire ligne par ligne
+                            // String ligne;
                             while ((ligne = br.readLine()) != null) {
-                    
-                                // Vérifier si la ligne correspond au format attendu
-                                Matcher matcherRoute = patternRoute.matcher(ligne.trim());
-                                Matcher matcherVille = patternVille.matcher(ligne.trim());
-                                Matcher matcherRecharge = patternRecharge.matcher(ligne.trim());
-                                Matcher matcherDecharge = patternDecharge.matcher(ligne.trim());
-                    
+                                Matcher matcherRoute = patternRoute.matcher(ligne.trim()); 
+                                Matcher matcherVille=patternVille.matcher(ligne.trim());
                                 // Utilisation des if-else pour déterminer le type de la ligne
                                 if (matcherRoute.matches()) {
-                    
                                     String lettreRoute1 = matcherRoute.group(1).toUpperCase();
                                     String lettreRoute2 = matcherRoute.group(2).toUpperCase();
                     
                                     // Vérifier si les villes existent dans l'agglomération avant de créer la route
                                     if (AgAutomatique.villeExiste(lettreRoute1) && AgAutomatique.villeExiste(lettreRoute2)) {
-                                        System.out.println("Création d'une route entre les villes " + lettreRoute1 + " et " + lettreRoute2);
                                         AgAutomatique.ajoutRoute(lettreRoute1, lettreRoute2);
                                     } else {
                                         System.out.println(lettreRoute1 + " ou " + lettreRoute2 + " ne se trouve pas dans l'agglomération.");
@@ -194,45 +185,7 @@ import java.io.*;
                                     String lettreVille = matcherVille.group(1).toUpperCase();
                                     System.out.println("Création de la ville : " + lettreVille);
                                     villesAutomatique.add(new Ville(String.valueOf(lettreVille.toUpperCase())));
-                    
-                                } else if (matcherRecharge.matches()) {
-                    
-                                    String lettreRecharge = matcherRecharge.group(1).toUpperCase();
-                                    boolean villeTrouvee = false;
-                    
-                                    for (Ville ville : villesAutomatique) {
-                                        if (ville.getNomVille().equalsIgnoreCase(lettreRecharge)) {
-                                            villeTrouvee = true;
-                                            if (!ville.getZoneDeRecharge()) {
-                                                AgAutomatique.recharge(lettreRecharge);
-                                            } else {
-                                                System.out.println(lettreRecharge + " a déjà une borne de recharge.");
-                                            }
-                                            break;  // Sortir de la boucle une fois la ville trouvée
-                                        }
-                                    }
-                                    if (!villeTrouvee) {
-                                        System.out.println(lettreRecharge + " ne se trouve pas dans l'agglomération.");
-                                    }
-                                } else if (matcherDecharge.matches()) {
-                    
-                                    String lettreDecharge = matcherDecharge.group(1).toUpperCase();
-                                    boolean villeTrouvee = false;
-                    
-                                    for (Ville ville : villesAutomatique) {
-                                        if (ville.getNomVille().equalsIgnoreCase(lettreDecharge)) {
-                                            villeTrouvee = true;
-                                            if (ville.getZoneDeRecharge()) {
-                                                AgAutomatique.decharge(lettreDecharge);
-                                            } else {
-                                                System.out.println(lettreDecharge + "n'a pas de borne de recharge.");
-                                            }
-                                            break;  // Sortir de la boucle une fois la ville trouvée
-                                        }
-                                    }
-                                    if (!villeTrouvee) {
-                                        System.out.println(lettreDecharge + " ne se trouve pas dans l'agglomération.");
-                                    }
+        
                                 } else {
                                     System.out.println("Le texte ne correspond pas au format attendu : " + ligne);
                                 }
@@ -256,6 +209,7 @@ import java.io.*;
 
                         //Fonction qui lance l'algorithme.
                         break;
+///////////////////                fin case 2                      ///////////////////////////////////////
 
                     case 3:
                         if(AgSauvegarde==null){
@@ -293,10 +247,14 @@ import java.io.*;
                         }
                         break;
                         
+///////////////////                fin case 3                  ///////////////////////////////////////
+
                     case 4:
                         System.out.println("Fin de programme.");
                         System.exit(0);
                         break;
+///////////////////                fin case 4                  ///////////////////////////////////////
+
                         }
                     }
                 // Fermer le BufferedReader

@@ -68,7 +68,6 @@ public class TestAgglomeration {
 				System.out.println("Dans quelle ville souhaitez-vous retirer une borne de recharge? ");
 				borne = s.nextLine();
 				Ag.decharge(borne);
-				System.out.println("la borne " + borne + " a bien été déchargé");
 				break;
 			case 3:
 				rep=false;

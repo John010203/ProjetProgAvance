@@ -55,7 +55,6 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 			routes.add(routeVille);//ajoute la Ville dans la liste routes.
 			routeVille.getVilleA().setVoisins(routeVille.getVilleB());
 			routeVille.getVilleB().setVoisins(routeVille.getVilleA());
-			System.out.println("La route reliant " + routeVille.getVilleA().getNomVille() + " à " + routeVille.getVilleB().getNomVille() + " a bien été ajouté.");
 		}
 	}//setRoute()
 	// void ajoutRoute(String ville1,String ville2),
@@ -71,9 +70,9 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 				v2=ville;
 			}//if
 		}//for
-		
 		if(v1!=null && v2!= null) { // Ajoute une nouvelle route si les deux villes existent.
 			this.setRoute(new Route(v1,v2));
+			System.out.println("La route reliant " + ville1 + " à " + ville2 + " a bien été ajoutée.");
 		}//if
 		else{ // Affiche un message si l'une des 2 villes n'existe pas.		
 			if(v1==null){
@@ -83,6 +82,7 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 				System.out.println(ville2+ " ne se trouve pas dans l'agglomération.");
 			}//if
 		}//else
+
 	}//ajouteRoute()
 	
 	//void recharge(String ville),
@@ -98,8 +98,7 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 					recharge.add(villes.get(i));
 					rep = false;
 					System.out.println(ville + " a maintenant une borne de recharge.");
-
-		
+							
 					for(Route route : this.routes){// Met à jour les voisins des routes.
 						if(route.getVilleA().equals(villes.get(i))){
 							route.getVilleB().setVoisins(route.getVilleA());
@@ -190,6 +189,7 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 						System.out.println(ville + " n'a pas de borne de recharge.");	
 					}
 					else {
+						System.out.println("La borne a bien été dechargé.");
 						setDecharge(this.villes.get(i));//Apelle de la méthode qui vérifie si la borne peut être retiré
 					}
 				}
