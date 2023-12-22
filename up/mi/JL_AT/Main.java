@@ -10,19 +10,20 @@ import java.io.*;
     public class Main{
         private static Agglomeration AgSauvegarde;
         
-        static boolean SoluceAuto;
-        static boolean SoluceManuelle;
+         static boolean SoluceAuto;
+         static boolean SoluceManuelle;
 
         public static void main(String[] args) throws IOException{
+
+            SoluceAuto=false;
+            SoluceManuelle=false;
 
     // Lire ligne par ligne
             String ligne;
     // Expression régulière pour "ville" "route".
             Pattern patternVille = Pattern.compile("ville\\(([A-Za-z])\\)");
             Pattern patternRoute = Pattern.compile("route\\(([A-Za-z]),([A-Za-z])\\)");
-
     // Le fichier d'entrée
-
             File file = new File("file.ca");
     // Créer l'objet FileReader
             FileReader fr = new FileReader(file);
@@ -99,6 +100,7 @@ import java.io.*;
                                 route2 = s.nextLine();
                                 try {
                                     Ag.ajoutRoute(route1, route2);
+                                    System.out.println("La route reliant " + route1 + " à " + route2 + " a bien été ajoutée.");
                                 } catch (IllegalArgumentException e) {
                                     System.out.println("Erreur : " + e.getMessage());
                                 }
@@ -125,6 +127,7 @@ import java.io.*;
                                 borne = s.nextLine();
                                 try {
                                     Ag.recharge(borne);
+                                    System.out.println("La borne " + borne + " a bien été rechargée");
                                 } catch (IllegalArgumentException e) {
                                     System.out.println("Erreur : " + e.getMessage());
                                 }
@@ -135,6 +138,7 @@ import java.io.*;
                                 borne = s.nextLine();
                                  try {
                                     Ag.decharge(borne);
+                                    System.out.println("La borne " + borne + " a bien été déchargée");
                                 } catch (IllegalArgumentException e) {
                                     System.out.println("Erreur : " + e.getMessage());
                                 }
@@ -150,6 +154,8 @@ import java.io.*;
                         SoluceManuelle=true;
 
                         break;
+
+
                         //soloution AUTOMATIQUE a partir du fichier file.txt
 ///////////////////    fin case 1                      ///////////////////////////////////////
                     case 2:
@@ -176,6 +182,7 @@ import java.io.*;
                     
                                     // Vérifier si les villes existent dans l'agglomération avant de créer la route
                                     if (AgAutomatique.villeExiste(lettreRoute1) && AgAutomatique.villeExiste(lettreRoute2)) {
+                                        System.out.println("Création d'une route entre les villes " + lettreRoute1 + " et " + lettreRoute2);
                                         AgAutomatique.ajoutRoute(lettreRoute1, lettreRoute2);
                                     } else {
                                         System.out.println(lettreRoute1 + " ou " + lettreRoute2 + " ne se trouve pas dans l'agglomération.");

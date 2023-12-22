@@ -1,5 +1,13 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Collections;
 
 public class Agglomeration { //Attributs de la classe Agglomeration.
@@ -56,7 +64,8 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 			routeVille.getVilleA().setVoisins(routeVille.getVilleB());
 			routeVille.getVilleB().setVoisins(routeVille.getVilleA());
 		}
-	}//setRoute()
+	}
+	//setRoute()
 	// void ajoutRoute(String ville1,String ville2),
 	// Ajoute une route entre deux villes spécifiées.
 	public void ajoutRoute(String ville1, String ville2){
@@ -72,7 +81,6 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 		}//for
 		if(v1!=null && v2!= null) { // Ajoute une nouvelle route si les deux villes existent.
 			this.setRoute(new Route(v1,v2));
-			System.out.println("La route reliant " + ville1 + " à " + ville2 + " a bien été ajoutée.");
 		}//if
 		else{ // Affiche un message si l'une des 2 villes n'existe pas.		
 			if(v1==null){
@@ -266,4 +274,137 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 	public List<Route> getRoutes() {
 		return this.routes;
 	}
+
+    public static void SauvergarderFichier(Agglomeration Agglo,int choix){
+        try {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Veuillez Entrez le nom du Fichier ou contiendra la sauvegarde (sans le '.ca').");
+
+        String nouveauFichier = scan.nextLine();
+
+        File sauvegardeFichier = new File(nouveauFichier+".ca");
+        
+        if (sauvegardeFichier.createNewFile()){
+        System.out.println("Fichier crée : " + sauvegardeFichier.getName());
+        } else {
+        System.out.println("Le Fichier existe déjà.");
+        }
+        scan.close();
+        FileWriter ecrireFichier = new FileWriter(nouveauFichier+".ca");
+		if(choix==2){
+			ecrireFichier.write("La Solution de l'Algorithme glouton est  : "+ Agglo.AlgorithmeGlouton());
+		}
+		else{
+
+			ecrireFichier.write("Les Villes sont: " + Agglo.getVilles());
+			ecrireFichier.write("La Solution est : ");
+
+			ecrireFichier.write(" " + Agglo.getVillesRecharge());
+		}
+        ecrireFichier.close();
+        System.out.println("l'écriture a été effectué avec succès.");
+	}
+     catch (IOException e) {
+        System.out.println("Erreur d'écriture.");
+        e.printStackTrace();
+    }                        
+    }
+
+    public static Agglomeration NouveauAgglomeration(Agglomeration Ag,String cheminFichier){
+        try{
+            String ligne;
+            List<Ville> villes = new ArrayList<Ville>();
+            Ag = new Agglomeration(villes);
+            File file = new File(cheminFichier); // Utilise le chemin du fichier fourni en paramètre
+            FileReader fileRead = new FileReader(file);
+            // Créer l'objet BufferedReader
+            BufferedReader bufferRead = new BufferedReader(fileRead);
+            // Expression régulière pour "ville"
+            Pattern patternVille = Pattern.compile("ville\\(([A-Za-z])\\)");
+            Pattern patternRoute = Pattern.compile("route\\(([A-Za-z]),([A-Za-z])\\)");
+            Pattern patternRecharge = Pattern.compile("recharge\\(([A-Za-z])\\)");
+            Pattern patternDecharge = Pattern.compile("decharge\\(([A-Za-z])\\)");
+
+                    while ((ligne = bufferRead.readLine()) != null){
+                            // Vérifier si la ligne correspond au format attendu
+                            Matcher matcherRoute=patternRoute.matcher(ligne.trim());
+                            Matcher matcherVille=patternVille.matcher(ligne.trim());
+                            Matcher matcherRecharge=patternRecharge.matcher(ligne.trim());
+                            Matcher matcherDecharge=patternDecharge.matcher(ligne.trim());
+
+                            // Utilisation des if-else pour déterminer le type de la ligne
+                            if (matcherRoute.matches()) {
+
+                                String lettreRoute1=matcherRoute.group(1).toUpperCase();
+                                String lettreRoute2=matcherRoute.group(2).toUpperCase();
+
+                                // Vérifier si les villes existent dans l'agglomération avant de créer la route
+                                if (Ag.villeExiste(lettreRoute1) && Ag.villeExiste(lettreRoute2)){
+                                    System.out.println("Création d'une route entre les villes " + lettreRoute1 + " et " + lettreRoute2);
+                                    Ag.ajoutRoute(lettreRoute1, lettreRoute2);
+                                } else {
+                                    System.out.println(lettreRoute1 + " ou " + lettreRoute2 + " ne se trouve pas dans l'agglomération.");
+                                }
+                            //creation de la ville.
+
+                            } else if (matcherVille.matches()) {
+
+                                String lettreVille = matcherVille.group(1).toUpperCase();
+                                System.out.println("Création de la ville : "+ lettreVille);
+                                villes.add(new Ville(String.valueOf(lettreVille.toUpperCase())));
+
+                            }else if (matcherRecharge.matches()) {
+
+                                String lettreRecharge = matcherRecharge.group(1).toUpperCase();
+                                boolean villeTrouvee = false;
+
+                                for (Ville ville : villes) {
+                                    if (ville.getNomVille().equalsIgnoreCase(lettreRecharge)) {
+                                        villeTrouvee = true;
+                                        if (!ville.getZoneDeRecharge()){
+                                            Ag.recharge(lettreRecharge);
+                                        } else {
+                                            System.out.println(lettreRecharge + " a déjà une borne de recharge.");
+                                        }
+                                        break;  // Sortir de la boucle une fois la ville trouvée
+                                    }
+                                }
+                                if (!villeTrouvee) {
+                                    System.out.println(lettreRecharge + " ne se trouve pas dans l'agglomération.");
+                                }
+                            } 
+
+                            //pour decharger la ville.
+                            else if (matcherDecharge.matches()) {
+
+                                String lettreDecharge = matcherDecharge.group(1).toUpperCase();
+                                boolean villeTrouvee = false;
+
+                                for (Ville ville : villes) {
+                                    if (ville.getNomVille().equalsIgnoreCase(lettreDecharge)) {
+                                        villeTrouvee = true;
+                                        if (ville.getZoneDeRecharge()){
+                                            Ag.decharge(lettreDecharge);
+                                        } else {
+                                            System.out.println(lettreDecharge + "n'a pas de borne de recharge.");
+                                        }
+                                        break;  // Sortir de la boucle une fois la ville trouvée
+                                    }
+                                }
+                                if (!villeTrouvee) {
+                                    System.out.println(lettreDecharge + " ne se trouve pas dans l'agglomération.");
+                                }
+                            } 
+                            else {
+                                System.out.println("Le texte ne correspond pas au format attendu : "+ "<"+ ligne +">");
+                            }
+                        }
+                        bufferRead.close();
+                    }
+                    catch(Exception e){
+                        e.getMessage();
+                    }
+        return Ag;               
+    }
 }
