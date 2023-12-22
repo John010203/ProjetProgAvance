@@ -25,7 +25,7 @@ public class TestAgglomeration {
 		System.out.println(Ag.getVilles());
 		
 		boolean rep=true;
-		while(rep) {
+		while(rep){
 			System.out.println("1. Ajouter une route.");
 			System.out.println("2. fin.");
 			
