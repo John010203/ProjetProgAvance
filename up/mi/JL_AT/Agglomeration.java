@@ -10,12 +10,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Collections;
 
-public class Agglomeration { //Attributs de la classe Agglomeration.
 
+public class Agglomeration { //Attributs de la classe Agglomeration.
 	private List <Ville> villes;
 	private List<Route> routes;
 	private List<Ville> recharge;
-	
 	public Agglomeration(List<Ville> villes) {//Initialise une agglomération avec une liste de villes.
 		this.villes = villes;
 		this.routes = new ArrayList<Route>();	
