@@ -9,6 +9,4 @@ Les fonctionnalités que nous avons implémenté :
 - ouverture et lecture d'un fichier pour créer des villes, des routes, recharger et décharger des villes
 - enregistrer dans un fichier le résultat d'une résolution manuelle ou automatique
 - affichage des villes de l'agglomération, des routes/des voisins
-
-Problème:
 -Si on Sauvegarde, le programme se termine.

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Main {
     public static void main(String[] args){
         try{        
@@ -30,12 +29,11 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choixSwitch;
         do {
-
             System.out.println("1 : Résoudre Manuellement");
             System.out.println("2 : Résoudre Automatiquement");
             System.out.println("3 : Sauvegarder");
             System.out.println("4 : Fin de Programme");
-            
+        
             while (!scanner.hasNextInt()) {
                 System.out.println("Veuillez entrer un nombre entier.");
                 scanner.next(); // consommer l'entrée invalide
