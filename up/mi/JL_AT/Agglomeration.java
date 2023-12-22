@@ -266,4 +266,10 @@ public class Agglomeration { //Attributs de la classe Agglomeration.
 	public List<Route> getRoutes() {
 		return this.routes;
 	}
+	public void affiche() {
+		System.out.println("Voici les villes avec des bornes dans l'agglomeration : " + this.getRecharge());
+		for(Ville ville : villes) {
+			System.out.println("Voici les voisins la ville " + ville.getNomVille() + " : " + ville.getVoisins());
+		}
+	}
 }
